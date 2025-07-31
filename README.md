@@ -100,6 +100,7 @@ Managing pending LinkedIn invitations one by one can be time-consuming. This scr
     console.log(`🎉 Total invitations withdrawn: ${withdrawnCount}`);
 })();
 
+
     ```
 
 2. Press `Enter` to execute the script.

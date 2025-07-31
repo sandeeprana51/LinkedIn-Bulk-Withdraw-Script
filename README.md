@@ -43,64 +43,77 @@ Managing pending LinkedIn invitations one by one can be time-consuming. This scr
 
 1. Press `F12` or `Ctrl + Shift + J` (on Windows) or `Cmd + Option + J` (on Mac) to open the Developer Console in your browser.
 
-### Step 3: Copy and Run the Script
+ 
 
-1. Copy the code below and paste it into the Developer Console:
+### 🚀 Step 3: Copy and Run the Script
 
-    ```javascript (async function bulkWithdrawLinkedInInvitations() {
-    console.log("🚀 Starting bulk withdrawal of LinkedIn invitations...");
+1. Open the **LinkedIn "Manage Invitations" → Sent** page in your browser.
 
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+2. Press `F12` or `Ctrl+Shift+I` to open the **Developer Console**.
 
-    // Scroll to load all invitations
-    for (let i = 0; i < 20; i++) {
-        window.scrollTo(0, document.body.scrollHeight);
-        await delay(1500);
-    }
+3. Copy the code below and paste it into the console, then press `Enter`:
 
-    // Get all 'Withdraw' buttons
-    const withdrawButtons = Array.from(document.querySelectorAll("button"))
-        .filter(btn => btn.innerText.trim() === "Withdraw");
+   ```javascript
+   (async function bulkWithdrawLinkedInInvitations() {
+       console.log("🚀 Starting bulk withdrawal of LinkedIn invitations...");
 
-    console.log(`📌 Found ${withdrawButtons.length} invitations to withdraw.`);
+       const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    let withdrawnCount = 0;
+       // Scroll to load all invitations
+       for (let i = 0; i < 20; i++) {
+           window.scrollTo(0, document.body.scrollHeight);
+           await delay(1500);
+       }
 
-    for (const button of withdrawButtons) {
-        try {
-            button.scrollIntoView({ behavior: "smooth", block: "center" });
-            await delay(800);
-            button.click();
-            await delay(1000);
+       const withdrawButtons = Array.from(document.querySelectorAll("button"))
+           .filter(btn => btn.innerText.trim() === "Withdraw");
 
-            // Wait up to 5 seconds for the dialog's confirm button to appear
-            let confirmBtn = null;
-            for (let i = 0; i < 10; i++) {
-                confirmBtn = Array.from(document.querySelectorAll("button"))
-                    .find(b => b.innerText.trim() === "Withdraw" && b.getAttribute("aria-label")?.includes("invitation sent"));
+       console.log(`📌 Found ${withdrawButtons.length} invitations to withdraw.`);
 
-                if (confirmBtn) break;
-                await delay(500);
-            }
+       let withdrawnCount = 0;
 
-            if (confirmBtn) {
-                confirmBtn.click();
-                withdrawnCount++;
-                console.log(`✅ Withdrawn (${withdrawnCount}): Success`);
-                await delay(2000); // delay before next
-            } else {
-                console.warn("❌ Confirm Withdraw button not found.");
-            }
-        } catch (err) {
-            console.error("❌ Error withdrawing invitation:", err);
-        }
-    }
+       for (const button of withdrawButtons) {
+           try {
+               button.scrollIntoView({ behavior: "smooth", block: "center" });
+               await delay(800);
+               button.click();
+               await delay(1000);
 
-    console.log(`🎉 Total invitations withdrawn: ${withdrawnCount}`);
-})();```
+               // Wait up to 5 seconds for the confirm button
+               let confirmBtn = null;
+               for (let i = 0; i < 10; i++) {
+                   confirmBtn = Array.from(document.querySelectorAll("button"))
+                       .find(b => b.innerText.trim() === "Withdraw" && b.getAttribute("aria-label")?.includes("invitation sent"));
 
-2. Press `Enter` to execute the script.
-3. The script will scroll through the page, identify, and withdraw each pending invitation. Each withdrawal is logged in the console.
+                   if (confirmBtn) break;
+                   await delay(500);
+               }
+
+               if (confirmBtn) {
+                   confirmBtn.click();
+                   withdrawnCount++;
+                   console.log(`✅ Withdrawn (${withdrawnCount}): Success`);
+                   await delay(2000);
+               } else {
+                   console.warn("❌ Confirm Withdraw button not found.");
+               }
+           } catch (err) {
+               console.error("❌ Error withdrawing invitation:", err);
+           }
+       }
+
+       console.log(`🎉 Total invitations withdrawn: ${withdrawnCount}`);
+   })();
+   ```
+
+4. ✅ Done! The script will:
+
+   * Scroll and load all invitations
+   * Click **Withdraw**
+   * Confirm the withdrawal
+   * Log progress in the console
+
+ 
 
 ## Limitations
 

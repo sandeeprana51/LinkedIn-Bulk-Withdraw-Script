@@ -47,8 +47,7 @@ Managing pending LinkedIn invitations one by one can be time-consuming. This scr
 
 1. Copy the code below and paste it into the Developer Console:
 
-    ```javascript
- (async function bulkWithdrawLinkedInInvitations() {
+    ```javascript (async function bulkWithdrawLinkedInInvitations() {
     console.log("🚀 Starting bulk withdrawal of LinkedIn invitations...");
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -98,10 +97,7 @@ Managing pending LinkedIn invitations one by one can be time-consuming. This scr
     }
 
     console.log(`🎉 Total invitations withdrawn: ${withdrawnCount}`);
-})();
-
-
-    ```
+})();```
 
 2. Press `Enter` to execute the script.
 3. The script will scroll through the page, identify, and withdraw each pending invitation. Each withdrawal is logged in the console.
